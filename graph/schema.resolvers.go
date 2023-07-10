@@ -11,14 +11,19 @@ import (
 	"github.com/ryohei1216/gqlgen-resolver/graph/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// CreateBook is the resolver for the createBook field.
+func (r *mutationResolver) CreateBook(ctx context.Context, title string, authorID int) (*model.Book, error) {
+	panic(fmt.Errorf("not implemented: CreateBook - createBook"))
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// CreateAuthor is the resolver for the createAuthor field.
+func (r *mutationResolver) CreateAuthor(ctx context.Context, name string) (*model.Author, error) {
+	panic(fmt.Errorf("not implemented: CreateAuthor - createAuthor"))
+}
+
+// Author is the resolver for the author field.
+func (r *queryResolver) Author(ctx context.Context, id int) (*model.Author, error) {
+	panic(fmt.Errorf("not implemented: Author - author"))
 }
 
 // Mutation returns MutationResolver implementation.
