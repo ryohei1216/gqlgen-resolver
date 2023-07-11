@@ -6,24 +6,56 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/ryohei1216/gqlgen-resolver/graph/model"
 )
 
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, title string, authorID int) (*model.Book, error) {
-	panic(fmt.Errorf("not implemented: CreateBook - createBook"))
+	book := &model.Book{
+		ID:       len(r.Books) + 1,
+		Title:    title,
+		AuthorID: authorID,
+	}
+
+	r.Books = append(r.Books, book)
+
+	return book, nil
 }
 
 // CreateAuthor is the resolver for the createAuthor field.
 func (r *mutationResolver) CreateAuthor(ctx context.Context, name string) (*model.Author, error) {
-	panic(fmt.Errorf("not implemented: CreateAuthor - createAuthor"))
+	author := &model.Author{
+		ID:   len(r.Authors) + 1,
+		Name: name,
+	}
+
+	r.Authors = append(r.Authors, author)
+
+	return author, nil
 }
 
 // Author is the resolver for the author field.
 func (r *queryResolver) Author(ctx context.Context, id int) (*model.Author, error) {
-	panic(fmt.Errorf("not implemented: Author - author"))
+	var author *model.Author
+
+	for _, a := range r.Authors {
+		if a.ID == id {
+			author = a
+			break
+		}
+	}
+
+	books := make([]*model.Book, 0)
+	for _, book := range r.Books {
+		if book.AuthorID == id {
+			books = append(books, book)
+		}
+	}
+
+	author.Books = books
+
+	return author, nil
 }
 
 // Mutation returns MutationResolver implementation.
