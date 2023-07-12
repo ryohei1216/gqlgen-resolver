@@ -6,9 +6,15 @@ package graph
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/ryohei1216/gqlgen-resolver/graph/model"
 )
+
+// Books is the resolver for the books field.
+func (r *authorResolver) Books(ctx context.Context, obj *model.Author) ([]*model.Book, error) {
+	panic(fmt.Errorf("not implemented: Books - books"))
+}
 
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, title string, authorID int) (*model.Book, error) {
@@ -58,11 +64,15 @@ func (r *queryResolver) Author(ctx context.Context, id int) (*model.Author, erro
 	return author, nil
 }
 
+// Author returns AuthorResolver implementation.
+func (r *Resolver) Author() AuthorResolver { return &authorResolver{r} }
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+type authorResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
