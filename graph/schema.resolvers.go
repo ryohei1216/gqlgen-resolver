@@ -6,14 +6,20 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/ryohei1216/gqlgen-resolver/graph/model"
 )
 
 // Books is the resolver for the books field.
 func (r *authorResolver) Books(ctx context.Context, obj *model.Author) ([]*model.Book, error) {
-	panic(fmt.Errorf("not implemented: Books - books"))
+	books := make([]*model.Book, 0)
+	for _, book := range r.Resolver.Books {
+		if book.AuthorID == obj.ID {
+			books = append(books, book)
+		}
+	}
+
+	return books, nil
 }
 
 // CreateBook is the resolver for the createBook field.
@@ -51,15 +57,6 @@ func (r *queryResolver) Author(ctx context.Context, id int) (*model.Author, erro
 			break
 		}
 	}
-
-	books := make([]*model.Book, 0)
-	for _, book := range r.Books {
-		if book.AuthorID == id {
-			books = append(books, book)
-		}
-	}
-
-	author.Books = books
 
 	return author, nil
 }
